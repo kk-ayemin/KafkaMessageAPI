@@ -18,7 +18,7 @@
 To install this project, first clone the git repo and build the project. Dependencies have already been added
 
 ```bash
-git clone https://github.com/KafkaMessageAPI
+git clone https://github.com/kk-ayemin/KafkaMessageAPI.git
 ```
 
 <p>Then add this code to your appsettings.json file for the Kafka Broker configs. You don't have to change this (yet). </p>
