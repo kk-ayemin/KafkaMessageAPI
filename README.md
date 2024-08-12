@@ -43,6 +43,9 @@ cd KafkaMessageAPI
 dotnet build
 ```
 
+<p>You can view the messages at this <a href="192.168.2.131:8080">link</a> (make sure you're in the 192.168.2.0 subnet): </p>
+
+
 ### DISCLAIMER
 <p>This is a something I wrote to showcase how hosted services and producers and consumers can be used with DLQ. It might not follow all of our coding standards so please help me fix those. </p>
 
