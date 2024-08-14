@@ -14,6 +14,7 @@ public class KafkaDLQConsumerService : IHostedService
     private IConsumer<string, string> _consumer;
     private readonly CancellationTokenSource _cancellationTokenSource;
 
+
     public KafkaDLQConsumerService(IOptions<KafkaSettings> settings)
     {
         _kafkaSettings = settings.Value;
@@ -24,7 +25,7 @@ public class KafkaDLQConsumerService : IHostedService
             GroupId = _kafkaSettings.GroupId,
             AutoOffsetReset = Enum.Parse<AutoOffsetReset>(_kafkaSettings.AutoOffsetReset, true),
             EnableAutoCommit = false,
-            SecurityProtocol = Enum.Parse<SecurityProtocol>(_kafkaSettings.SecurityProtocol, true)
+            SecurityProtocol = Enum.Parse<SecurityProtocol>(_kafkaSettings.SecurityProtocol, true),
         };
 
         _consumer = new ConsumerBuilder<string, string>(config).Build();
@@ -46,15 +47,16 @@ public class KafkaDLQConsumerService : IHostedService
 
     private void StartConsuming(CancellationToken cancellationToken)
     {
-        _consumer.Subscribe(_kafkaSettings.Topic);
-        Console.WriteLine($"Subscribed to topic {_kafkaSettings.Topic}. Waiting for messages...");
+        var Topic = "topics.dlq";
+        _consumer.Subscribe(Topic);
+        Console.WriteLine($"Subscribed to topic {Topic}. Waiting for messages...");
 
         while (!cancellationToken.IsCancellationRequested)
         {
             try
             {
                 var cr = _consumer.Consume(cancellationToken);
-                Console.WriteLine($"Consumed event from topic {_kafkaSettings.Topic}: key = {cr.Message.Key}, value = {cr.Message.Value}");
+                Console.WriteLine($"Consumed event from topic {Topic}: key = {cr.Message.Key}, value = {cr.Message.Value}");
 
                 try
                 {
